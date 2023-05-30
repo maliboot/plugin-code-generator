@@ -1,0 +1,16 @@
+<?php
+
+declare(strict_types=1);
+%COPYRIGHT%
+namespace %NAMESPACE%;
+
+%USES%
+
+/**
+ * %CLASS%
+ */
+#[QueryService]
+class %CLASS% extends %INHERITANCE%
+{
+
+}

@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+%COPYRIGHT%
+namespace %NAMESPACE%;
+
+%USES%
+
+/**
+ * %CLASS%
+ */
+#[AppService]
+class %CLASS% extends %INHERITANCE%
+{
+    #[Inject]
+    protected %STUDLY_REPOSITORY% $%CAMEL_REPOSITORY%;
+
+    public function execute(%STUDLY_COMMAND_NAME% $%CAMEL_COMMAND_NAME%): %RETURN_TYPE%
+    {
+        %REPOSITORY_PARAMS_LINE%
+        $result = $this->%CAMEL_REPOSITORY%->%REPOSITORY_METHOD%(%REPOSITORY_PARAMS%);
+        %RETURN_RESULT%
+    }
+}

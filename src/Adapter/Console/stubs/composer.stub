@@ -1,0 +1,38 @@
+{
+    "name": "%USERNAME%/%PLUGIN_NAME%",
+    "description": "A plugin library for Maliboot.",
+    "license": "MIT",
+    "keywords": [
+        "php",
+        "swoole",
+        "hyperf",
+        "maliboot"
+    ],
+    "support": {
+    },
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "%PLUGIN_NAMESPACE%": "src/"
+        },
+        "files": [
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "%PLUGIN_TEST_NAMESPACE%": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "hyperf": {
+            "config": "%PLUGIN_NAMESPACE%Plugin"
+        }
+    }
+}

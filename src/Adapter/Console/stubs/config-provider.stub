@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+%COPYRIGHT%
+namespace %NAMESPACE%;
+
+%USES%
+
+class %CLASS% extends %INHERITANCE%
+{
+    protected static string $dir = __DIR__;
+
+    protected function config(): array
+    {
+        return [
+            'commands' => [
+            ],
+            'dependencies' => [
+            ],
+            'listeners' => [
+            ],
+            'annotations' => [
+                'scan' => [
+                    'paths' => [
+                        __DIR__,
+                    ],
+                ],
+            ],
+            'publish' => [
+            ],
+        ];
+    }
+}

@@ -1,0 +1,19 @@
+<?php
+
+declare(strict_types=1);
+%COPYRIGHT%
+namespace %NAMESPACE%;
+
+%USES%
+
+/**
+ * %CLASS%
+ */
+#[AppService]
+class %CLASS% extends %INHERITANCE%
+{
+    public function execute(%STUDLY_COMMAND_NAME% $%CAMEL_COMMAND_NAME%): %RETURN_TYPE%
+    {
+        return %RETURN_TYPE%::of([]);
+    }
+}

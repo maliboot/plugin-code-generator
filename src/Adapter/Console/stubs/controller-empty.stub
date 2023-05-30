@@ -1,0 +1,17 @@
+<?php
+
+declare(strict_types=1);
+%COPYRIGHT%
+namespace %NAMESPACE%;
+
+%USES%
+
+/**
+ * %CLASS%
+ */
+#[ApiController(prefix: '/%PLATFORM%/%CAMEL_NAME%')]
+#[ApiGroup('%CN_NAME%')]
+#[Auth('%PLATFORM%')]
+class %CLASS% extends %INHERITANCE%
+{
+}

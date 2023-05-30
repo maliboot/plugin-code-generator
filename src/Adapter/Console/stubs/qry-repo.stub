@@ -1,0 +1,14 @@
+<?php
+
+declare(strict_types=1);
+%COPYRIGHT%
+namespace %NAMESPACE%;
+
+%USES%
+
+/**
+ * %CLASS%
+ */
+class %CLASS% extends %INHERITANCE% implements %INTERFACE%
+{
+}

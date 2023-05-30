@@ -1,0 +1,81 @@
+<?php
+
+declare(strict_types=1);
+%COPYRIGHT%
+namespace %NAMESPACE%;
+
+%USES%
+
+/**
+ * %CLASS%
+ */
+#[API(name: "%CN_NAME%")]
+class %CLASS% extends %INHERITANCE% implements %INTERFACE%
+{
+    #[Inject]
+    protected %STUDLY_NAME%ListByPageQryExe $%CAMEL_NAME%ListByPageQryExe;
+
+    #[Inject]
+    protected %STUDLY_NAME%CreateCmdExe $%CAMEL_NAME%CreateCmdExe;
+
+    #[Inject]
+    protected %STUDLY_NAME%UpdateCmdExe $%CAMEL_NAME%UpdateCmdExe;
+
+    #[Inject]
+    protected %STUDLY_NAME%DeleteCmdExe $%CAMEL_NAME%DeleteCmdExe;
+
+    #[Inject]
+    protected %STUDLY_NAME%GetByIdQryExe $%CAMEL_NAME%GetByIdQryExe;
+
+    /**
+     * @param %STUDLY_NAME%ListByPageQry $%CAMEL_NAME%ListByPageQry
+     *
+     * @return PageVO<%STUDLY_NAME%VO>
+     */
+    #[Method(name: "%CN_NAME%列表")]
+    public function listByPage(%STUDLY_NAME%ListByPageQry $%CAMEL_NAME%ListByPageQry): PageVO
+    {
+        return $this->%CAMEL_NAME%ListByPageQryExe->execute($%CAMEL_NAME%ListByPageQry);
+    }
+
+    /**
+     * @param %STUDLY_NAME%CreateCmd $%CAMEL_NAME%CreateCmd
+     *
+     * @return IdVO
+     */
+    #[Method(name: "创建%CN_NAME%")]
+    public function create(%STUDLY_NAME%CreateCmd $%CAMEL_NAME%CreateCmd): IdVO
+    {
+        return $this->%CAMEL_NAME%CreateCmdExe->execute($%CAMEL_NAME%CreateCmd);
+    }
+
+    /**
+     * @param %STUDLY_NAME%UpdateCmd $%CAMEL_NAME%UpdateCmd
+     * @return EmptyVO
+     */
+    #[Method(name: "修改%CN_NAME%")]
+    public function update(%STUDLY_NAME%UpdateCmd $%CAMEL_NAME%UpdateCmd): EmptyVO
+    {
+        return $this->%CAMEL_NAME%UpdateCmdExe->execute($%CAMEL_NAME%UpdateCmd);
+    }
+
+    /**
+     * @param int $id
+     * @return EmptyVO
+     */
+    #[Method(name: "删除%CN_NAME%")]
+    public function delete(int $id): EmptyVO
+    {
+        return $this->%CAMEL_NAME%DeleteCmdExe->execute($id);
+    }
+
+    /**
+     * @param int $id
+     * @return %STUDLY_NAME%VO
+     */
+     #[Method(name: "获取单个%CN_NAME%信息")]
+    public function getById(int $id): ?%STUDLY_NAME%VO
+    {
+        return $this->%CAMEL_NAME%GetByIdQryExe->execute($id);
+    }
+}

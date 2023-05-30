@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+%COPYRIGHT%
+namespace %NAMESPACE%;
+
+%USES%
+
+/**
+ * %CLASS%
+ *
+%GETTER_SETTER%
+ */
+#[DataObject(name: "%CN_NAME%", table: "%TABLE%", connection: "%CONNECTION%")]
+class %CLASS% extends %INHERITANCE% implements %INTERFACE%
+{
+    use SoftDeletes;
+
+%PROPERTIES%
+}
