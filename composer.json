@@ -1,12 +1,12 @@
 {
     "name": "maliboot/plugin-code-generator",
-    "description": "A swagger library for Hyperf.",
+    "description": "A plugin-code-generator library for Maliboot.",
     "license": "MIT",
     "keywords": [
         "php",
         "swoole",
         "hyperf",
-        "swagger"
+        "maliboot"
     ],
     "support": {
     },
