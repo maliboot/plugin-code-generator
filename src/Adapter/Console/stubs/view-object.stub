@@ -8,8 +8,6 @@ namespace %NAMESPACE%;
 
 /**
  * %CLASS%
- *
-%GETTER_SETTER%
  */
 #[ViewObject(name: "%CN_NAME%")]
 class %CLASS% extends %INHERITANCE%

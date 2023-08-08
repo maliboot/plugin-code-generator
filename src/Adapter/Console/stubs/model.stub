@@ -8,8 +8,6 @@ namespace %NAMESPACE%;
 
 /**
  * %CLASS%
- *
-%GETTER_SETTER%
  */
 #[%CLASS_ANNOTATION%(name: "%CN_NAME%")]
 class %CLASS% extends %INHERITANCE% implements %INTERFACE%

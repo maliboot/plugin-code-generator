@@ -8,8 +8,6 @@ namespace %NAMESPACE%;
 
 /**
  * %CLASS%
- *
-%GETTER_SETTER%
  */
 #[DataObject(name: "%CN_NAME%", table: "%TABLE%", connection: "%CONNECTION%")]
 class %CLASS% extends %INHERITANCE% implements %INTERFACE%

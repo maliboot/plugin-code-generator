@@ -8,8 +8,6 @@ namespace %NAMESPACE%;
 
 /**
  * %CLASS%
- *
-%GETTER_SETTER%
  */
 #[DataTransferObject(name: "%CN_NAME%", type: "%COMMAND_TYPE%")]
 class %CLASS% extends %INHERITANCE%
