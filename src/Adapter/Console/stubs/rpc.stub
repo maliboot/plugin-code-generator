@@ -20,7 +20,7 @@ class %CLASS% extends %INHERITANCE% implements %INTERFACE%
     #[Method(name: "%CN_NAME%列表")]
     public function listByPage(%STUDLY_NAME%ListByPageQry $%CAMEL_NAME%ListByPageQry): PageVO
     {
-        return di(%CAMEL_NAME%ListByPageQryExe:class)->execute($%CAMEL_NAME%ListByPageQry);
+        return di(%CAMEL_NAME%ListByPageQryExe::class)->execute($%CAMEL_NAME%ListByPageQry);
     }
 
     /**
@@ -31,7 +31,7 @@ class %CLASS% extends %INHERITANCE% implements %INTERFACE%
     #[Method(name: "创建%CN_NAME%")]
     public function create(%STUDLY_NAME%CreateCmd $%CAMEL_NAME%CreateCmd): IdVO
     {
-        return di(%CAMEL_NAME%CreateCmdExe:class)->execute($%CAMEL_NAME%CreateCmd);
+        return di(%CAMEL_NAME%CreateCmdExe::class)->execute($%CAMEL_NAME%CreateCmd);
     }
 
     /**
@@ -41,7 +41,7 @@ class %CLASS% extends %INHERITANCE% implements %INTERFACE%
     #[Method(name: "修改%CN_NAME%")]
     public function update(%STUDLY_NAME%UpdateCmd $%CAMEL_NAME%UpdateCmd): EmptyVO
     {
-        return di(%CAMEL_NAME%UpdateCmdExe:class)->execute($%CAMEL_NAME%UpdateCmd);
+        return di(%CAMEL_NAME%UpdateCmdExe::class)->execute($%CAMEL_NAME%UpdateCmd);
     }
 
     /**
@@ -51,7 +51,7 @@ class %CLASS% extends %INHERITANCE% implements %INTERFACE%
     #[Method(name: "删除%CN_NAME%")]
     public function delete(int $id): EmptyVO
     {
-        return di(%CAMEL_NAME%DeleteCmdExe:class)->execute($id);
+        return di(%CAMEL_NAME%DeleteCmdExe::class)->execute($id);
     }
 
     /**
@@ -61,6 +61,6 @@ class %CLASS% extends %INHERITANCE% implements %INTERFACE%
      #[Method(name: "获取单个%CN_NAME%信息")]
     public function getById(int $id): ?%STUDLY_NAME%VO
     {
-        return di(%CAMEL_NAME%GetByIdQryExe:class)->execute($id);
+        return di(%CAMEL_NAME%GetByIdQryExe::class)->execute($id);
     }
 }

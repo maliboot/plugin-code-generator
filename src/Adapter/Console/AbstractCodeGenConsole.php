@@ -8,7 +8,7 @@ use Hyperf\Command\Command as HyperfCommand;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Database\ConnectionResolverInterface;
 use Hyperf\Database\Schema\Builder;
-use Hyperf\Utils\Str;
+use Hyperf\Stringable\Str;
 use MaliBoot\PluginCodeGenerator\Client\Constants\FileType;
 use MaliBoot\Utils\CodeGen\Plugin;
 use MaliBoot\Utils\File;
@@ -20,6 +20,8 @@ use Symfony\Component\Console\Input\InputOption;
 abstract class AbstractCodeGenConsole extends HyperfCommand
 {
     protected ?ConfigInterface $config = null;
+
+    protected ?string $table;
 
     protected ?string $businessName;
 
@@ -526,22 +528,17 @@ abstract class AbstractCodeGenConsole extends HyperfCommand
                 --$fieldLength;
                 continue;
             }
+            $propertyOpenApiType = $this->getOpenApiType($property[1]);
 
-            if (in_array($fileType, [
-                FileType::DOMAIN_MODEL_AGGREGATE,
-                FileType::DOMAIN_MODEL_VALUE_OBJECT,
-                FileType::DOMAIN_MODEL_ENTITY,
-            ])) {
-                $propertyCode .= sprintf("    #[Field(name: \"%s\")]\n", $property[2]);
-            } elseif ($fileType === FileType::INFRA_DATA_OBJECT) {
+            if ($fileType === FileType::INFRA_DATA_OBJECT) {
                 $propertyCode .= sprintf(
-                    "    #[Column(name: \"%s\", desc: \"%s\", type: \"%s\")]\n",
+                    "    #[Column(name: \"%s\", type: \"%s\", desc: \"%s\")]\n",
                     $field['name'],
+                    $this->formatPropertyType($field['data_type'], $field['cast'] ?? null),
                     $property[2],
-                    $this->formatPropertyType($field['data_type'], $field['cast'] ?? null)
                 );
             } else {
-                $propertyCode .= sprintf("    #[Field(name: \"%s\", type: \"%s\")]\n", $property[2], $this->getOpenApiType($property[1]));
+                $propertyCode .= sprintf("    #[Field(name: \"%s\", type: \"%s\", desc: \"%s\")]\n", $field['name'], $propertyOpenApiType, $property[2]);
             }
 
             $propertyCode .= sprintf('    private %s $%s;', $property[1], $property[0]);

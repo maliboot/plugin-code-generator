@@ -9,10 +9,8 @@ namespace %NAMESPACE%;
 /**
  * %CLASS%
  */
-#[DataObject(name: "%CN_NAME%", table: "%TABLE%", connection: "%CONNECTION%")]
-class %CLASS% extends %INHERITANCE% implements %INTERFACE%
+#[Database(table: "%TABLE%", connection: "%CONNECTION%", softDeletes: true)]
+class %CLASS%
 {
-    use SoftDeletes;
-
 %PROPERTIES%
 }

@@ -10,7 +10,7 @@ namespace %NAMESPACE%;
  * %CLASS%
  */
 #[DataTransferObject(name: "%CN_NAME%", type: "%COMMAND_TYPE%")]
-class %CLASS% extends %INHERITANCE%
+class %CLASS%
 {
 %PROPERTIES%
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MaliBoot\PluginCodeGenerator\Adapter\Console;
 
 use Hyperf\Contract\ContainerInterface;
-use Hyperf\Utils\Str;
+use Hyperf\Stringable\Str;
 use MaliBoot\ApiAnnotation\ApiMultiResponse;
 use MaliBoot\ApiAnnotation\ApiPageResponse;
 use MaliBoot\ApiAnnotation\ApiSingleResponse;

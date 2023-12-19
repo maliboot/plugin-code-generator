@@ -10,7 +10,7 @@ namespace %NAMESPACE%;
  * %CLASS%
  */
 #[ViewObject(name: "%CN_NAME%")]
-class %CLASS% extends %INHERITANCE%
+class %CLASS%
 {
 %PROPERTIES%
 }

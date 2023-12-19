@@ -42,22 +42,19 @@ class PluginGenDOConsole extends AbstractCodeGenConsole
 
     protected function getInheritance(): string
     {
-        return 'AbstractDatabaseDO';
+        return '';
     }
 
     protected function getInterface(string $table, ?string $shortClassName = null): string
     {
-        return 'DataObjectInterface';
+        return '';
     }
 
     protected function getUses(): array
     {
         return [
-            'MaliBoot\\Cola\\Annotation\\DataObject',
-            'MaliBoot\\Cola\\Infra\\DataObjectInterface',
-            'MaliBoot\\Cola\\Infra\\AbstractDatabaseDO',
-            'MaliBoot\\Cola\\Annotation\\Column',
-            'Hyperf\\Database\\Model\\SoftDeletes',
+            'MaliBoot\\Cola\\Annotation\\Database',
+            'MaliBoot\\Database\\Annotation\\Column',
         ];
     }
 

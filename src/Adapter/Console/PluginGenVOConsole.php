@@ -43,15 +43,14 @@ class PluginGenVOConsole extends AbstractCodeGenConsole
 
     protected function getInheritance(): string
     {
-        return 'AbstractViewObject';
+        return '';
     }
 
     protected function getUses(): array
     {
         return [
-            'MaliBoot\\Dto\\AbstractViewObject',
             'MaliBoot\\Dto\\Annotation\\ViewObject',
-            'MaliBoot\\Dto\\Annotation\\Field',
+            'MaliBoot\\Lombok\\Annotation\\Field',
         ];
     }
 

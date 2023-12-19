@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MaliBoot\PluginCodeGenerator\Adapter\Console\Traits;
 
 use Hyperf\Contract\ConfigInterface;
-use Hyperf\Utils\Str;
+use Hyperf\Stringable\Str;
 use MaliBoot\Dto\AbstractCommand;
 use MaliBoot\PluginCodeGenerator\Client\ViewObject\TemplateVO;
 use MaliBoot\Utils\File;
@@ -15,7 +15,7 @@ trait CodeGeneratorTrait
     /**
      * 预览代码
      */
-    public function preview(AbstractCommand $customVariable, TemplateVO $templateVO): string
+    public function preview(object $customVariable, TemplateVO $templateVO): string
     {
         return $this->getCodeContent($customVariable, $templateVO);
     }
@@ -23,7 +23,7 @@ trait CodeGeneratorTrait
     /**
      * 生成代码
      */
-    public function generator(AbstractCommand $customVariable, TemplateVO $templateVO): void
+    public function generator(object $customVariable, TemplateVO $templateVO): void
     {
         $codeContent = $this->getCodeContent($customVariable, $templateVO);
         $this->generatorFile($templateVO->getGeneratorFilePath(), $codeContent);
@@ -36,7 +36,7 @@ trait CodeGeneratorTrait
      * @param AbstractCommand $customVariable 模板自定义变量
      * @param TemplateVO $templateVO 模板公共变量
      */
-    protected function getCodeContent(AbstractCommand $customVariable, TemplateVO $templateVO): string
+    protected function getCodeContent(object $customVariable, TemplateVO $templateVO): string
     {
         $data = array_merge($templateVO->toArray(), $customVariable->toArray());
         return $this->render($templateVO->getTemplateFilePath(), $data);

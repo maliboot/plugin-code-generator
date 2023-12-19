@@ -10,7 +10,7 @@ namespace %NAMESPACE%;
  * %CLASS%
  */
 #[%CLASS_ANNOTATION%(name: "%CN_NAME%")]
-class %CLASS% extends %INHERITANCE% implements %INTERFACE%
+class %CLASS%
 {
 %PROPERTIES%
 }

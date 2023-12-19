@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MaliBoot\PluginCodeGenerator\Infra\Ast;
 
-use Hyperf\Utils\Str;
+use Hyperf\Stringable\Str;
 use PhpParser\Node;
 
 class ModelRewriteGetterSetterVisitor extends \Hyperf\Database\Commands\Ast\ModelRewriteGetterSetterVisitor

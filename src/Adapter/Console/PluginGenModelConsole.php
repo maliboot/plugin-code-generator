@@ -46,39 +46,26 @@ class PluginGenModelConsole extends AbstractCodeGenConsole
 
     protected function getInheritance(): string
     {
-        if ($this->getFileType() === FileType::DOMAIN_MODEL_VALUE_OBJECT) {
-            return 'AbstractValueObject';
-        }
-        return 'AbstractEntity';
+        return '';
     }
 
     protected function getUses(): array
     {
         $uses = [
-            'MaliBoot\\Cola\\Annotation\\Field',
+            'MaliBoot\\Lombok\\Annotation\\Field',
         ];
-
-        if ($this->getFileType() === FileType::DOMAIN_MODEL_VALUE_OBJECT) {
-            $uses[] = 'MaliBoot\\Cola\\Domain\\AbstractValueObject';
-        } else {
-            $uses[] = 'MaliBoot\\Cola\\Domain\\AbstractEntity';
-        }
 
         switch ($this->getType()) {
             case 'aggregate':
-                $uses[] = 'MaliBoot\\Cola\\Domain\\AggregateRootInterface';
                 $uses[] = 'MaliBoot\\Cola\\Annotation\\AggregateRoot';
                 break;
             case 'entity':
-                $uses[] = 'MaliBoot\\Cola\\Domain\\EntityInterface';
                 $uses[] = 'MaliBoot\\Cola\\Annotation\\Entity';
                 break;
             case 'vo':
-                $uses[] = 'MaliBoot\\Cola\\Domain\\ValueObjectInterface';
                 $uses[] = 'MaliBoot\\Cola\\Annotation\\ValueObject';
                 break;
             default:
-                $uses[] = 'MaliBoot\\Cola\\Domain\\AggregateRootInterface';
                 $uses[] = 'MaliBoot\\Cola\\Annotation\\AggregateRoot';
                 break;
         }
@@ -93,21 +80,7 @@ class PluginGenModelConsole extends AbstractCodeGenConsole
 
     protected function getInterface(string $table, ?string $shortClassName = null): string
     {
-        switch ($this->getType()) {
-            case 'aggregate':
-                $interfaceName = 'AggregateRootInterface';
-                break;
-            case 'entity':
-                $interfaceName = 'EntityInterface';
-                break;
-            case 'vo':
-                $interfaceName = 'ValueObjectInterface';
-                break;
-            default:
-                $interfaceName = 'AggregateRootInterface';
-                break;
-        }
-        return $interfaceName;
+        return '';
     }
 
     protected function getFileType(): string

@@ -63,6 +63,6 @@ class PluginGenCurdConsole extends HyperfCommand
         $this->call('plugin:gen-controller', $commonArguments + ['--platform' => $platform]);
         $this->call('plugin:gen-api', $commonArguments);
         $this->call('plugin:gen-rpc', $commonArguments);
-        $this->call('plugin:gen-service', $commonArguments);
+//        $this->call('plugin:gen-service', $commonArguments);
     }
 }

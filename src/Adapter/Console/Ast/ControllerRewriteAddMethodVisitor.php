@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MaliBoot\PluginCodeGenerator\Adapter\Console\Ast;
 
-use Hyperf\Utils\Str;
+use Hyperf\Stringable\Str;
 use PhpParser\Builder;
 use PhpParser\BuilderFactory;
 use PhpParser\BuilderHelpers;

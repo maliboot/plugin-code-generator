@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MaliBoot\PluginCodeGenerator\Adapter\Console\Ast;
 
-use Hyperf\Utils\Arr;
+use Hyperf\Collection\Arr;
 
 class ControllerMethodData
 {

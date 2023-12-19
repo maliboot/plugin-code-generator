@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MaliBoot\PluginCodeGenerator\Adapter\Console;
 
 use Hyperf\Contract\ContainerInterface;
-use Hyperf\Utils\Str;
+use Hyperf\Stringable\Str;
 use MaliBoot\PluginCodeGenerator\Client\Constants\FileType;
 use MaliBoot\Utils\File;
 use Symfony\Component\Console\Input\InputOption;
@@ -36,6 +36,7 @@ class PluginGenCommandConsole extends AbstractCodeGenConsole
     {
         $pluginName = $this->getPluginName();
         $table = $this->input->getArgument('table');
+        $this->table = $table;
         $className = $this->input->getOption('class', null);
         $this->method = $this->input->getOption('method');
         $this->cmdType = $this->input->getOption('cmd-type');
@@ -73,30 +74,15 @@ class PluginGenCommandConsole extends AbstractCodeGenConsole
 
     protected function getInheritance(): string
     {
-        if ($this->method === 'listByPage') {
-            return 'PageQuery';
-        }
-
-        return 'Abstract' . Str::studly($this->cmdType);
+        return '';
     }
 
     protected function getUses(): array
     {
-        $uses = [
+        return [
             'MaliBoot\\Dto\\Annotation\\DataTransferObject',
-            'MaliBoot\\Dto\\Annotation\\Field',
+            'MaliBoot\\Lombok\\Annotation\\Field',
         ];
-
-        $use = 'MaliBoot\\Dto\\';
-        if ($this->method === 'listByPage') {
-            $use .= 'PageQuery';
-        } else {
-            $use .= 'Abstract' . Str::studly($this->cmdType) . '';
-        }
-
-        $uses[] = $use;
-
-        return $uses;
     }
 
     protected function getFileType(): string
@@ -233,9 +219,11 @@ class PluginGenCommandConsole extends AbstractCodeGenConsole
      */
     protected function replaceCommandType(string &$stub, string $table): static
     {
+        $cmdType = $this->getCommandType($table);
+        $this->method === 'listByPage' && $cmdType = $cmdType . '-page';
         $stub = str_replace(
-            ['%COMMAND_TYPE%'],
-            [$this->getCommandType($table)],
+            '%COMMAND_TYPE%',
+            $cmdType,
             $stub
         );
 

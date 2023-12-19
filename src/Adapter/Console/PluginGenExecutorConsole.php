@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace MaliBoot\PluginCodeGenerator\Adapter\Console;
 
 use Hyperf\Contract\ContainerInterface;
-use Hyperf\Utils\Arr;
-use Hyperf\Utils\Str;
+use Hyperf\Collection\Arr;
+use Hyperf\Stringable\Str;
 use MaliBoot\PluginCodeGenerator\Client\Constants\FileType;
 use MaliBoot\Utils\File;
 use Symfony\Component\Console\Input\InputOption;
