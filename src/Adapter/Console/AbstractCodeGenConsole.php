@@ -538,7 +538,7 @@ abstract class AbstractCodeGenConsole extends HyperfCommand
                     $property[2],
                 );
             } else {
-                $propertyCode .= sprintf("    #[Field(name: \"%s\", type: \"%s\", desc: \"%s\")]\n", $field['name'], $propertyOpenApiType, $property[2]);
+                $propertyCode .= sprintf("    #[Field(name: \"%s\", type: \"%s\", desc: \"%s\")]\n", $property[0], $propertyOpenApiType, $property[2]);
             }
 
             $propertyCode .= sprintf('    private %s $%s;', $property[1], $property[0]);
