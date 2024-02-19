@@ -63,7 +63,8 @@ abstract class AbstractCodeGenConsole extends HyperfCommand
     protected function getClassName(string $pluginName, string $table, CodeGenOption $option, ?string $className = null)
     {
         if (empty($className)) {
-            $className = $option->getTableMapping()[$table] ?? Str::studly(Str::singular($table));
+            $dbPrefix = $this->getDbPrefix();
+            $className = $option->getTableMapping()[$table] ?? Str::studly(str_replace($dbPrefix, '', Str::singular($table)));
         }
 
         $plugin = new Plugin($pluginName);
@@ -678,6 +679,6 @@ abstract class AbstractCodeGenConsole extends HyperfCommand
     private function getDbPrefix(): string
     {
         $config = $this->container->get(ConfigInterface::class);
-        return $config->get('database.default.prefix', '');
+        return $config->get('databases.default.prefix', '');
     }
 }
