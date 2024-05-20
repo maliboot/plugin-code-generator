@@ -87,4 +87,12 @@ class FileType
     public const INFRA_REPOSITORY = 'infra_repository';
 
     public const INFRA_DATA_OBJECT = 'infra_data_object';
+
+    public const APP_EXECUTOR_ADMIN = 'app_executor_admin';
+
+    public const APP_EXECUTOR_MOBILE = 'app_executor_mobile';
+
+    public const APP_EXECUTOR_WAP = 'app_executor_wap';
+
+    public const APP_EXECUTOR_WEB = 'app_executor_web';
 }
