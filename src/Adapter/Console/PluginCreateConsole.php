@@ -34,9 +34,9 @@ class PluginCreateConsole extends BaseConsole
         parent::configure();
         $this->addArgument('plugin', InputArgument::REQUIRED, '插件名称');
         $this->addOption('base-path', null, InputOption::VALUE_OPTIONAL, '插件根目录');
-        $this->addOption('enable-domain-model', null, InputOption::VALUE_OPTIONAL, '是否支持DDD架构');
-        $this->addOption('enable-query-command', null, InputOption::VALUE_OPTIONAL, '是否支持读写分离');
-        $this->setDescription('Create a new plugin');
+        $this->addOption('enable-domain-model', null, InputOption::VALUE_OPTIONAL, '是否支持DDD架构', 'false');
+        $this->addOption('enable-query-command', null, InputOption::VALUE_OPTIONAL, '是否支持读写分离', 'false');
+        $this->setDescription('Create a new plugin skeleton: php bin/hyperf.php plugin:create module-name --enable-domain-model=false --enable-query-command=false');
     }
 
     public function handle()
@@ -50,14 +50,14 @@ class PluginCreateConsole extends BaseConsole
 
         $pluginDirFiles = Arr::get($codeGeneratorConfig, 'paths.generator');
 
-        $enableDomain = $this->input->getOption('enable-domain-model') != null;
+        $enableDomain = $this->input->getOption('enable-domain-model') == 'true';
         if (! $enableDomain) {
             isset($pluginDirFiles[FileType::DOMAIN]) && $pluginDirFiles[FileType::DOMAIN]['generate'] = false;
             isset($pluginDirFiles[FileType::DOMAIN_MODEL]) && $pluginDirFiles[FileType::DOMAIN_MODEL]['generate'] = false;
             isset($pluginDirFiles[FileType::DOMAIN_SERVICE]) && $pluginDirFiles[FileType::DOMAIN_SERVICE]['generate'] = false;
             isset($pluginDirFiles[FileType::DOMAIN_REPOSITORY]) && $pluginDirFiles[FileType::DOMAIN_REPOSITORY]['generate'] = false;
         }
-        $enableQueryCommand = $this->input->getOption('enable-query-command') != null;
+        $enableQueryCommand = $this->input->getOption('enable-query-command') == 'true';
         if (! $enableQueryCommand) {
             isset($pluginDirFiles[FileType::APP_EXECUTOR_COMMAND]) && $pluginDirFiles[FileType::APP_EXECUTOR_COMMAND]['generate'] = false;
             isset($pluginDirFiles[FileType::APP_EXECUTOR_COMMAND_ADMIN]) && $pluginDirFiles[FileType::APP_EXECUTOR_COMMAND_ADMIN]['generate'] = false;
