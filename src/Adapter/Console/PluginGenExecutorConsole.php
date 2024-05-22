@@ -19,13 +19,9 @@ class PluginGenExecutorConsole extends AbstractCodeGenConsole
 
     protected ?string $method;
 
-    protected ?string $platform;
-
     protected ?string $exeType;
 
     protected ?string $vo;
-
-    private bool $enableDomain = false;
 
     public function __construct(ContainerInterface $container)
     {
@@ -38,12 +34,11 @@ class PluginGenExecutorConsole extends AbstractCodeGenConsole
         $this->setDescription('Create a new plugin executor');
         $this->defaultConfigure();
         $this->addOption('method', null, InputOption::VALUE_OPTIONAL, '方法名称', 'curd');
-        $this->addOption('platform', null, InputOption::VALUE_OPTIONAL, '平台', 'admin');
+        $this->addOption('platform', null, InputOption::VALUE_OPTIONAL, '平台', '');
         $this->addOption('exe-type', null, InputOption::VALUE_OPTIONAL, 'exe类型', 'query');
         $this->addOption('empty', null, InputOption::VALUE_OPTIONAL, '是否为空');
         $this->addOption('vo', null, InputOption::VALUE_OPTIONAL, '指定 view object');
         $this->addOption('enable-query-command', null, InputOption::VALUE_OPTIONAL, '是否支持读写分离架构', 'false');
-        $this->addOption('enable-domain-model', null, InputOption::VALUE_OPTIONAL, '是否支持DDD架构', 'false');
     }
 
     public function handle()
@@ -57,7 +52,6 @@ class PluginGenExecutorConsole extends AbstractCodeGenConsole
         $className = $this->input->getOption('class');
         $this->businessName = $this->getBusinessName();
         $this->enableCmdQry = $this->input->getOption('enable-query-command') === 'true';
-        $this->enableDomain = $this->input->getOption('enable-domain-model') === 'true';
 
         if ($this->method !== 'curd') {
             $option = $this->initOption();
@@ -109,26 +103,10 @@ class PluginGenExecutorConsole extends AbstractCodeGenConsole
         $this->addCommandUses($uses)->addVOUses($uses);
 
         if (! $this->input->getOption('empty')) {
-            $this->addModelUses($uses)
-                ->addRepositoryUses($uses);
+            $this->addRepositoryUses($uses);
         }
 
         return $uses;
-    }
-
-    protected function addModelUses(array &$uses): static
-    {
-        if (! $this->enableDomain) {
-            return $this;
-        }
-
-        // delete不引用model
-        if (($this->exeType === 'command' && $this->method !== 'delete') || ($this->exeType === 'query' && $this->method === 'getById')) {
-            $namespace = $this->getNamespaceByPath($this->getPath(FileType::DOMAIN_MODEL) . '/' . $this->businessName);
-            $uses[] = sprintf('%s%s', $namespace, $this->businessName);
-        }
-
-        return $this;
     }
 
     protected function addCommandUses(array &$uses): static
@@ -172,7 +150,6 @@ class PluginGenExecutorConsole extends AbstractCodeGenConsole
     protected function addRepositoryUses(array &$uses): static
     {
         $infraRepoNamespace = $this->getNamespaceByPath($this->getPath(FileType::INFRA_REPOSITORY));
-        $domainRepoNamespace = $this->getNamespaceByPath($this->getPath(FileType::DOMAIN_REPOSITORY));
         if ($this->exeType === 'query') {
             if (! $this->enableCmdQry) {
                 $uses[] = sprintf('%s%sRepo', $infraRepoNamespace, $this->businessName);
@@ -180,12 +157,7 @@ class PluginGenExecutorConsole extends AbstractCodeGenConsole
                 $uses[] = sprintf('%s%sQryRepo', $infraRepoNamespace, $this->businessName);
             }
         } else {
-            if ($this->enableDomain) {
-                $namespace = $domainRepoNamespace;
-            } else {
-                $namespace = $infraRepoNamespace;
-            }
-            $uses[] = sprintf('%s%sRepo', $namespace, $this->businessName);
+            $uses[] = sprintf('%s%sRepo', $infraRepoNamespace, $this->businessName);
         }
 
         return $this;
@@ -238,7 +210,7 @@ class PluginGenExecutorConsole extends AbstractCodeGenConsole
         }
 
         if (! $this->enableCmdQry) {
-            $shortExeType = 'DTO';
+            $shortExeType = '';
         }
         return sprintf('%s%sExe', $suffix, $shortExeType);
     }
@@ -407,7 +379,6 @@ class PluginGenExecutorConsole extends AbstractCodeGenConsole
 
     protected function getRepositoryParamsLine(): string
     {
-        $businessName = $this->businessName;
         $commandName = Str::camel($this->getCommandName());
         switch ($this->method) {
             case 'listByPage':
@@ -415,11 +386,7 @@ class PluginGenExecutorConsole extends AbstractCodeGenConsole
                 break;
             case 'update':
             case 'create':
-                if ($this->enableDomain) {
-                    $repositoryParams = sprintf('$params = %s::of($%s->toArray());', $businessName, $commandName);
-                } else {
-                    $repositoryParams = sprintf('$params = $%s->toArray();', $commandName);
-                }
+                $repositoryParams = sprintf('$params = $%s->toArray();', $commandName);
                 break;
             default:
                 $repositoryParams = '';

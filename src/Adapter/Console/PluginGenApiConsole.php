@@ -17,8 +17,6 @@ class PluginGenApiConsole extends AbstractCodeGenConsole
 
     protected ?string $cnName;
 
-    protected ?string $platform;
-
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container, 'plugin:gen-api');
@@ -30,7 +28,7 @@ class PluginGenApiConsole extends AbstractCodeGenConsole
         $this->setDescription('Create a new plugin service');
         $this->defaultConfigure();
         $this->addOption('cn-name', null, InputOption::VALUE_OPTIONAL, '中文业务名称');
-        $this->addOption('platform', null, InputOption::VALUE_OPTIONAL, '平台', 'web');
+        $this->addOption('platform', null, InputOption::VALUE_OPTIONAL, '平台', '');
         $this->addOption('enable-query-command', null, InputOption::VALUE_OPTIONAL, '是否支持读写分离架构', 'false');
     }
 

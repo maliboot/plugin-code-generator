@@ -34,12 +34,13 @@ class PluginGenRepoConsole extends AbstractCodeGenConsole
             '--path' => $this->input->getOption('path') ?? null,
             '--prefix' => $this->input->getOption('prefix') ?? null,
             '--force' => $this->input->getOption('force') ?? false,
-            '--enable-query-command' => $this->input->getOption('enable-query-command'),
         ];
+        $qryCmdArgs = $commonArguments + ['--enable-query-command' => $this->input->getOption('enable-query-command')];
+
         $enableDomain = $this->input->getOption('enable-domain-model') === 'true';
         $this->enableCmdQry = $this->input->getOption('enable-query-command') === 'true';
         if ($enableDomain) {
-            $this->call('plugin:gen-domain-cmd-repo', $commonArguments);
+            $this->call('plugin:gen-domain-cmd-repo', $qryCmdArgs);
         }
         if ($this->enableCmdQry) {
             $this->call('plugin:gen-cmd-repo', $commonArguments);

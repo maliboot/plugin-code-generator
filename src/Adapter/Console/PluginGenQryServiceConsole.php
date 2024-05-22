@@ -16,8 +16,6 @@ class PluginGenQryServiceConsole extends AbstractCodeGenConsole
 
     protected ?string $cnName;
 
-    protected ?string $platform;
-
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container, 'plugin:gen-qry-service');

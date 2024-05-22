@@ -30,6 +30,8 @@ abstract class AbstractCodeGenConsole extends HyperfCommand
      */
     protected bool $enableCmdQry = false;
 
+    protected string $platform = '';
+
     protected array $buildGetterSetterFileTypes = [
         FileType::DOMAIN_MODEL_VALUE_OBJECT,
         FileType::DOMAIN_MODEL_ENTITY,
@@ -720,6 +722,34 @@ abstract class AbstractCodeGenConsole extends HyperfCommand
 
             $namespace = $this->getNamespaceByPath($this->getPath($fileType));
             $uses[] = sprintf('%s%s%s', $namespace, $studlyName, $curd);
+        }
+
+        return $this;
+    }
+
+    protected function addExecutorUses(array &$uses): static
+    {
+        $curds = ['ListByPageQry', 'CreateCmd', 'UpdateCmd', 'DeleteCmd', 'GetByIdQry'];
+        $studlyName = $this->getStudlyName($this->table);
+
+        foreach ($curds as $curd) {
+            if (in_array($curd, ['ListByPageQry', 'GetByIdQry'])) {
+                $fileType = FileType::APP_EXECUTOR_QUERY;
+            } else {
+                $fileType = FileType::APP_EXECUTOR_COMMAND;
+            }
+
+            if (! $this->enableCmdQry) {
+                $fileType = FileType::APP_EXECUTOR;
+                $curd = str_replace(['Qry', 'Cmd'], ['', ''], $curd);
+            }
+
+            if ($this->platform) {
+                $fileType .= '_' . Str::lower($this->platform);
+            }
+
+            $namespace = $this->getNamespaceByPath($this->getPath($fileType));
+            $uses[] = sprintf('%s%s%sExe', $namespace, $studlyName, $curd);
         }
 
         return $this;

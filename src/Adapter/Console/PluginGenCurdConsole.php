@@ -50,26 +50,25 @@ class PluginGenCurdConsole extends HyperfCommand
             '--class' => $this->input->getOption('class') ?? null,
             '--name' => $this->input->getOption('name') ?? null,
             '--force' => $this->input->getOption('force') ?? false,
-            '--enable-query-command' => $this->input->getOption('enable-query-command'),
-            '--enable-domain-model' => $this->input->getOption('enable-domain-model'),
         ];
+        $enableQueryCommand = $this->input->getOption('enable-query-command');
+        $enableDomainModel = $this->input->getOption('enable-domain-model');
 
         $platform = $this->input->getOption('platform');
         $curdArguments = array_merge($commonArguments, ['--method' => 'curd']);
 
-        if ($commonArguments['--enable-domain-model']) {
+        if ($enableDomainModel === 'true') {
             $this->call('plugin:gen-model', $commonArguments);
         }
 
         $this->call('plugin:gen-do', $commonFieldArguments);
-
         $this->call('plugin:gen-vo', $commonArguments);
-        $this->call('plugin:gen-command', $curdArguments);
-        $this->call('plugin:gen-repo', $commonArguments);
-        $this->call('plugin:gen-executor', $curdArguments + ['--platform' => $platform]);
-        $this->call('plugin:gen-controller', $commonArguments + ['--platform' => $platform]);
-        $this->call('plugin:gen-api', $commonArguments);
-        $this->call('plugin:gen-rpc', $commonArguments);
+        $this->call('plugin:gen-command', $curdArguments + ['--enable-query-command' => $enableQueryCommand]);
+        $this->call('plugin:gen-repo', $commonArguments + ['--enable-query-command' => $enableQueryCommand, '--enable-domain-model' => $enableDomainModel]);
+        $this->call('plugin:gen-executor', $curdArguments + ['--platform' => $platform, '--enable-query-command' => $enableQueryCommand]);
+        $this->call('plugin:gen-controller', $commonArguments + ['--platform' => $platform, '--enable-query-command' => $enableQueryCommand]);
+        $this->call('plugin:gen-api', $commonArguments + ['--enable-query-command' => $enableQueryCommand]);
+        $this->call('plugin:gen-rpc', $commonArguments + ['--platform' => $platform, '--enable-query-command' => $enableQueryCommand]);
         //        $this->call('plugin:gen-service', $commonArguments);
     }
 }

@@ -24,7 +24,7 @@ class %CLASS% extends %INHERITANCE%
     #[ApiPageResponse(%STUDLY_NAME%VO::class)]
     public function listByPage(%STUDLY_NAME%ListByPage%QRY_SUFFIX% $%CAMEL_NAME%ListByPage%QRY_SUFFIX%): PageVO
     {
-        return di(%CAMEL_NAME%ListByPage%QRY_SUFFIX%Exe::class)->execute($%CAMEL_NAME%ListByPage%QRY_SUFFIX%);
+        return di(%CAMEL_NAME%ListByPageExe::class)->execute($%CAMEL_NAME%ListByPage%QRY_SUFFIX%);
     }
 
     #[ApiMapping(path: "create", methods: ["POST"], name: "创建%CN_NAME%")]
@@ -32,7 +32,7 @@ class %CLASS% extends %INHERITANCE%
     #[ApiSingleResponse(IdVO::class)]
     public function create(%STUDLY_NAME%Create%CMD_SUFFIX% $%CAMEL_NAME%Create%CMD_SUFFIX%): IdVO
     {
-        return di(%CAMEL_NAME%Create%CMD_SUFFIX%Exe::class)->execute($%CAMEL_NAME%Create%CMD_SUFFIX%);
+        return di(%CAMEL_NAME%CreateExe::class)->execute($%CAMEL_NAME%Create%CMD_SUFFIX%);
     }
 
     #[ApiMapping(path: "update", methods: ["PUT"], name: "修改%CN_NAME%")]
@@ -40,7 +40,7 @@ class %CLASS% extends %INHERITANCE%
     #[ApiSingleResponse(EmptyVO::class)]
     public function update(%STUDLY_NAME%Update%CMD_SUFFIX% $%CAMEL_NAME%Update%CMD_SUFFIX%): EmptyVO
     {
-        return di(%CAMEL_NAME%Update%CMD_SUFFIX%Exe::class)->execute($%CAMEL_NAME%Update%CMD_SUFFIX%);
+        return di(%CAMEL_NAME%UpdateExe::class)->execute($%CAMEL_NAME%Update%CMD_SUFFIX%);
     }
 
     #[ApiMapping(path: "delete", methods: ["DELETE"], name: "删除%CN_NAME%")]
@@ -48,7 +48,7 @@ class %CLASS% extends %INHERITANCE%
     #[ApiSingleResponse(EmptyVO::class)]
     public function delete(int $id): EmptyVO
     {
-        return di(%CAMEL_NAME%Delete%CMD_SUFFIX%Exe::class)->execute($id);
+        return di(%CAMEL_NAME%DeleteExe::class)->execute($id);
     }
 
     #[ApiMapping(path: "getById", methods: ["GET"], name: "获取单个%CN_NAME%信息")]
@@ -56,6 +56,6 @@ class %CLASS% extends %INHERITANCE%
     #[ApiSingleResponse(%STUDLY_NAME%VO::class)]
     public function getById(int $id): ?%STUDLY_NAME%VO
     {
-        return di(%CAMEL_NAME%GetById%QRY_SUFFIX%Exe::class)->execute($id);
+        return di(%CAMEL_NAME%GetByIdExe::class)->execute($id);
     }
 }

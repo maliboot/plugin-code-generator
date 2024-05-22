@@ -22,8 +22,6 @@ class PluginGenControllerConsole extends AbstractCodeGenConsole
 
     protected ?string $cnName;
 
-    protected ?string $platform;
-
     protected bool $addMethod = false;
 
     protected string $apiUrl;
@@ -45,7 +43,7 @@ class PluginGenControllerConsole extends AbstractCodeGenConsole
         $this->setDescription('Create a new plugin controller');
         $this->defaultConfigure();
         $this->addOption('cn-name', null, InputOption::VALUE_OPTIONAL, '中文业务名称');
-        $this->addOption('platform', null, InputOption::VALUE_OPTIONAL, '平台', 'admin');
+        $this->addOption('platform', null, InputOption::VALUE_OPTIONAL, '平台', '');
         $this->addOption('empty', null, InputOption::VALUE_OPTIONAL, '是否为空');
 
         $this->addOption('add-method', null, InputOption::VALUE_OPTIONAL, '添加方法');
@@ -174,34 +172,6 @@ class PluginGenControllerConsole extends AbstractCodeGenConsole
     {
         $namespace = $this->getNamespaceByPath($this->getPath(FileType::CLIENT_VIEW_OBJECT));
         $uses[] = sprintf('%s%sVO', $namespace, $this->businessName);
-
-        return $this;
-    }
-
-    protected function addExecutorUses(array &$uses): static
-    {
-        $curds = ['ListByPageQry', 'CreateCmd', 'UpdateCmd', 'DeleteCmd', 'GetByIdQry'];
-        $studlyName = $this->getStudlyName($this->table);
-
-        foreach ($curds as $curd) {
-            if (in_array($curd, ['ListByPageQry', 'GetByIdQry'])) {
-                $fileType = FileType::APP_EXECUTOR_QUERY;
-            } else {
-                $fileType = FileType::APP_EXECUTOR_COMMAND;
-            }
-
-            if ($this->platform === 'admin') {
-                $fileType .= '_' . Str::lower($this->platform);
-            }
-
-            if (! $this->enableCmdQry) {
-                $fileType = FileType::CLIENT_DTO;
-                $curd = str_replace(['Qry', 'Cmd'], ['DTO', 'DTO'], $curd);
-            }
-
-            $namespace = $this->getNamespaceByPath($this->getPath($fileType));
-            $uses[] = sprintf('%s%s%sExe', $namespace, $studlyName, $curd);
-        }
 
         return $this;
     }
