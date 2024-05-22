@@ -31,6 +31,7 @@ class PluginGenApiConsole extends AbstractCodeGenConsole
         $this->defaultConfigure();
         $this->addOption('cn-name', null, InputOption::VALUE_OPTIONAL, '中文业务名称');
         $this->addOption('platform', null, InputOption::VALUE_OPTIONAL, '平台', 'web');
+        $this->addOption('enable-query-command', null, InputOption::VALUE_OPTIONAL, '是否支持读写分离架构', 'false');
     }
 
     public function handle()
@@ -40,6 +41,7 @@ class PluginGenApiConsole extends AbstractCodeGenConsole
         $this->cnName = $this->input->getOption('cn-name');
         $className = $this->input->getOption('class');
         $this->businessName = $this->getBusinessName();
+        $this->enableCmdQry = $this->input->getOption('enable-query-command') === 'true';
         $option = $this->initOption();
 
         $this->generator($this->pluginName, $this->table, $option, $className);
@@ -72,25 +74,6 @@ class PluginGenApiConsole extends AbstractCodeGenConsole
     {
         $namespace = $this->getNamespaceByPath($this->getPath(FileType::CLIENT_VIEW_OBJECT));
         $uses[] = sprintf('%s%sVO', $namespace, $this->businessName);
-
-        return $this;
-    }
-
-    protected function addCmdUses(array &$uses): static
-    {
-        $curds = ['ListByPageQry', 'CreateCmd', 'UpdateCmd'];
-        $studlyName = $this->getStudlyName($this->table);
-
-        foreach ($curds as $curd) {
-            if (in_array($curd, ['ListByPageQry', 'GetByIdQry'])) {
-                $fileType = FileType::CLIENT_DTO_QUERY;
-            } else {
-                $fileType = FileType::CLIENT_DTO_COMMAND;
-            }
-
-            $namespace = $this->getNamespaceByPath($this->getPath($fileType));
-            $uses[] = sprintf('%s%s%s', $namespace, $studlyName, $curd);
-        }
 
         return $this;
     }

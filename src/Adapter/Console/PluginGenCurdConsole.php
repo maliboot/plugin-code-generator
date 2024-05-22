@@ -32,6 +32,8 @@ class PluginGenCurdConsole extends HyperfCommand
         $this->addOption('property-case', null, InputOption::VALUE_OPTIONAL, '要使用哪个属性案例，0：蛇形案例，1：骆驼案例。');
         $this->addOption('cn-name', null, InputOption::VALUE_OPTIONAL, '中文业务名称');
         $this->addOption('platform', null, InputOption::VALUE_OPTIONAL, '平台', 'admin');
+        $this->addOption('enable-domain-model', null, InputOption::VALUE_OPTIONAL, '是否支持DDD架构', 'false');
+        $this->addOption('enable-query-command', null, InputOption::VALUE_OPTIONAL, '是否支持读写分离架构', 'false');
     }
 
     public function handle(): void
@@ -48,14 +50,19 @@ class PluginGenCurdConsole extends HyperfCommand
             '--class' => $this->input->getOption('class') ?? null,
             '--name' => $this->input->getOption('name') ?? null,
             '--force' => $this->input->getOption('force') ?? false,
+            '--enable-query-command' => $this->input->getOption('enable-query-command'),
+            '--enable-domain-model' => $this->input->getOption('enable-domain-model'),
         ];
 
         $platform = $this->input->getOption('platform');
-
         $curdArguments = array_merge($commonArguments, ['--method' => 'curd']);
 
+        if ($commonArguments['--enable-domain-model']) {
+            $this->call('plugin:gen-model', $commonArguments);
+        }
+
         $this->call('plugin:gen-do', $commonFieldArguments);
-        $this->call('plugin:gen-model', $commonArguments);
+
         $this->call('plugin:gen-vo', $commonArguments);
         $this->call('plugin:gen-command', $curdArguments);
         $this->call('plugin:gen-repo', $commonArguments);
@@ -63,6 +70,6 @@ class PluginGenCurdConsole extends HyperfCommand
         $this->call('plugin:gen-controller', $commonArguments + ['--platform' => $platform]);
         $this->call('plugin:gen-api', $commonArguments);
         $this->call('plugin:gen-rpc', $commonArguments);
-//        $this->call('plugin:gen-service', $commonArguments);
+        //        $this->call('plugin:gen-service', $commonArguments);
     }
 }

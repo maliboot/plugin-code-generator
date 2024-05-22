@@ -14,28 +14,28 @@ interface %CLASS%
     /**
      * %CN_NAME%列表
      *
-     * @param %STUDLY_NAME%ListByPageQry $%CAMEL_NAME%ListByPageQry
+     * @param %STUDLY_NAME%ListByPage%QRY_SUFFIX% $%CAMEL_NAME%ListByPage%QRY_SUFFIX%
      *
      * @return PageVO<%STUDLY_NAME%VO>
      */
-    public function listByPage(%STUDLY_NAME%ListByPageQry $%CAMEL_NAME%ListByPageQry): PageVO;
+    public function listByPage(%STUDLY_NAME%ListByPage%QRY_SUFFIX% $%CAMEL_NAME%ListByPage%QRY_SUFFIX%): PageVO;
 
     /**
      * 创建%CN_NAME%
      *
-     * @param %STUDLY_NAME%CreateCmd $%CAMEL_NAME%CreateCmd
+     * @param %STUDLY_NAME%Create%CMD_SUFFIX% $%CAMEL_NAME%Create%CMD_SUFFIX%
      *
      * @return IdVO
      */
-    public function create(%STUDLY_NAME%CreateCmd $%CAMEL_NAME%CreateCmd): IdVO;
+    public function create(%STUDLY_NAME%Create%CMD_SUFFIX% $%CAMEL_NAME%Create%CMD_SUFFIX%): IdVO;
 
     /**
      * 修改%CN_NAME%
      *
-     * @param %STUDLY_NAME%UpdateCmd $%CAMEL_NAME%UpdateCmd
+     * @param %STUDLY_NAME%Update%CMD_SUFFIX% $%CAMEL_NAME%Update%CMD_SUFFIX%
      * @return EmptyVO
      */
-    public function update(%STUDLY_NAME%UpdateCmd $%CAMEL_NAME%UpdateCmd): EmptyVO;
+    public function update(%STUDLY_NAME%Update%CMD_SUFFIX% $%CAMEL_NAME%Update%CMD_SUFFIX%): EmptyVO;
 
     /**
      * 删除%CN_NAME%

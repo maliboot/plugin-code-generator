@@ -53,6 +53,7 @@ class PluginGenControllerConsole extends AbstractCodeGenConsole
         $this->addOption('api-http-method', null, InputOption::VALUE_OPTIONAL, '接口 http 方法');
         $this->addOption('api-name', null, InputOption::VALUE_OPTIONAL, '接口名称');
         $this->addOption('api-response-type', null, InputOption::VALUE_OPTIONAL, '响应类型');
+        $this->addOption('enable-query-command', null, InputOption::VALUE_OPTIONAL, '是否支持读写分离架构', 'false');
     }
 
     public function handle()
@@ -67,6 +68,7 @@ class PluginGenControllerConsole extends AbstractCodeGenConsole
         $this->apiHttpMethod = (string) $this->input->getOption('api-http-method');
         $this->apiName = (string) $this->input->getOption('api-name');
         $this->apiResponseType = (string) $this->input->getOption('api-response-type');
+        $this->enableCmdQry = $this->input->getOption('enable-query-command') === 'true';
 
         $className = $this->input->getOption('class');
         $this->businessName = $this->getBusinessName();
@@ -176,25 +178,6 @@ class PluginGenControllerConsole extends AbstractCodeGenConsole
         return $this;
     }
 
-    protected function addCmdUses(array &$uses): static
-    {
-        $curds = ['ListByPageQry', 'CreateCmd', 'UpdateCmd'];
-        $studlyName = $this->getStudlyName($this->table);
-
-        foreach ($curds as $curd) {
-            if (in_array($curd, ['ListByPageQry', 'GetByIdQry'])) {
-                $fileType = FileType::CLIENT_DTO_QUERY;
-            } else {
-                $fileType = FileType::CLIENT_DTO_COMMAND;
-            }
-
-            $namespace = $this->getNamespaceByPath($this->getPath($fileType));
-            $uses[] = sprintf('%s%s%s', $namespace, $studlyName, $curd);
-        }
-
-        return $this;
-    }
-
     protected function addExecutorUses(array &$uses): static
     {
         $curds = ['ListByPageQry', 'CreateCmd', 'UpdateCmd', 'DeleteCmd', 'GetByIdQry'];
@@ -209,6 +192,11 @@ class PluginGenControllerConsole extends AbstractCodeGenConsole
 
             if ($this->platform === 'admin') {
                 $fileType .= '_' . Str::lower($this->platform);
+            }
+
+            if (! $this->enableCmdQry) {
+                $fileType = FileType::CLIENT_DTO;
+                $curd = str_replace(['Qry', 'Cmd'], ['DTO', 'DTO'], $curd);
             }
 
             $namespace = $this->getNamespaceByPath($this->getPath($fileType));

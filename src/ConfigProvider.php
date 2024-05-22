@@ -31,6 +31,7 @@ class ConfigProvider
                 Console\PluginGenDOConsole::class,
                 Console\PluginGenCurdConsole::class,
                 Console\PluginGenByApifoxConsole::class,
+                Console\PluginGenCommonRepoConsole::class,
             ],
             'dependencies' => [
             ],

@@ -30,6 +30,7 @@ class PluginGenCommandConsole extends AbstractCodeGenConsole
         $this->addOption('method', null, InputOption::VALUE_OPTIONAL, '方法名称', 'curd');
         $this->addOption('cmd-type', null, InputOption::VALUE_OPTIONAL, '命令类型', 'query');
         $this->addOption('fields', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, '字段');
+        $this->addOption('enable-query-command', null, InputOption::VALUE_OPTIONAL, '是否支持读写分离架构', 'false');
     }
 
     public function handle()
@@ -41,6 +42,7 @@ class PluginGenCommandConsole extends AbstractCodeGenConsole
         $this->method = $this->input->getOption('method');
         $this->cmdType = $this->input->getOption('cmd-type');
         $fields = $this->input->getOption('fields');
+        $this->enableCmdQry = $this->input->getOption('enable-query-command') === 'true';
 
         if ($this->method !== 'curd') {
             $option = $this->initOption();
@@ -87,6 +89,10 @@ class PluginGenCommandConsole extends AbstractCodeGenConsole
 
     protected function getFileType(): string
     {
+        if (! $this->enableCmdQry) {
+            return FileType::CLIENT_DTO;
+        }
+
         if ($this->cmdType === 'query') {
             return FileType::CLIENT_DTO_QUERY;
         }
@@ -95,9 +101,14 @@ class PluginGenCommandConsole extends AbstractCodeGenConsole
 
     protected function getClassSuffix(): string
     {
+
         $suffix = '';
         if (! empty($this->table)) {
             $suffix = Str::studly($this->method);
+        }
+
+        if (! $this->enableCmdQry) {
+            return $suffix . 'DTO';
         }
 
         if ($this->cmdType === 'query') {

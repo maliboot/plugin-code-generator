@@ -25,6 +25,11 @@ abstract class AbstractCodeGenConsole extends HyperfCommand
 
     protected ?string $businessName;
 
+    /**
+     * @var bool 是否读写分离
+     */
+    protected bool $enableCmdQry = false;
+
     protected array $buildGetterSetterFileTypes = [
         FileType::DOMAIN_MODEL_VALUE_OBJECT,
         FileType::DOMAIN_MODEL_ENTITY,
@@ -33,16 +38,17 @@ abstract class AbstractCodeGenConsole extends HyperfCommand
         FileType::CLIENT_DTO_COMMAND,
         FileType::CLIENT_DTO_QUERY,
         FileType::INFRA_DATA_OBJECT,
+        FileType::CLIENT_DTO,
     ];
 
     protected array $suffixList = [
         'Controller', 'Rpc', 'QryExe', 'CmdExe', 'QryRepo', 'CmdRepo', 'Repo',
-        'QryService', 'DomainService', 'Service', 'DO', 'VO', 'DO', 'Cmd', 'Qry',
+        'QryService', 'DomainService', 'Service', 'DO', 'VO', 'DO', 'Cmd', 'Qry', 'DTO',
     ];
 
     protected array $filterColumns = ['deleted_at'];
 
-    public function __construct(protected ContainerInterface $container, string $name = null)
+    public function __construct(protected ContainerInterface $container, ?string $name = null)
     {
         parent::__construct($name);
         $this->config = $this->container->get(ConfigInterface::class);
@@ -150,7 +156,8 @@ abstract class AbstractCodeGenConsole extends HyperfCommand
             ->replaceClass($stub, $className)
             ->replaceStudlyName($stub, $table, $shortClassName)
             ->replaceCamelName($stub, $table, $shortClassName)
-            ->replaceCnName($stub, $table, $shortClassName);
+            ->replaceCnName($stub, $table, $shortClassName)
+            ->replaceCmdQrySuffix($stub);
 
         if (in_array($this->getFileType(), $this->buildGetterSetterFileTypes)) {
             $this->replaceProperties($stub, $table, $option, $fields)
@@ -184,6 +191,24 @@ abstract class AbstractCodeGenConsole extends HyperfCommand
         $stub = str_replace(
             ['%CN_NAME%'],
             [$this->getCnName($table, $shortClassName)],
+            $stub
+        );
+
+        return $this;
+    }
+
+    protected function replaceCmdQrySuffix(string &$stub): static
+    {
+        $cmdSuffix = 'Cmd';
+        $qrySuffix = 'Qry';
+
+        if (! $this->enableCmdQry) {
+            $cmdSuffix = $qrySuffix = 'DTO';
+        }
+
+        $stub = str_replace(
+            ['%CMD_SUFFIX%', '%QRY_SUFFIX%'],
+            [$cmdSuffix, $qrySuffix],
             $stub
         );
 
@@ -625,7 +650,7 @@ abstract class AbstractCodeGenConsole extends HyperfCommand
     protected function getBusinessName(): string
     {
         if (! empty($businessName = $this->input->getOption('name'))) {
-            return str::studly($businessName);
+            return Str::studly($businessName);
         }
         if (! empty($className = $this->input->getOption('class'))) {
             return $this->getBusinessNameByClassName($className);
@@ -638,7 +663,7 @@ abstract class AbstractCodeGenConsole extends HyperfCommand
 
     protected function getBusinessNameByClassName(string $className): string
     {
-        return str::studly(str_replace($this->suffixList, '', $className));
+        return Str::studly(str_replace($this->suffixList, '', $className));
     }
 
     protected function defaultConfigure()
@@ -674,6 +699,30 @@ abstract class AbstractCodeGenConsole extends HyperfCommand
     {
         $plugin = new Plugin($this->getPluginName());
         return $plugin->namespace($path);
+    }
+
+    protected function addCmdUses(array &$uses): static
+    {
+        $curds = ['ListByPageQry', 'CreateCmd', 'UpdateCmd'];
+        $studlyName = $this->getStudlyName($this->table);
+
+        foreach ($curds as $curd) {
+            if (in_array($curd, ['ListByPageQry', 'GetByIdQry'])) {
+                $fileType = FileType::CLIENT_DTO_QUERY;
+            } else {
+                $fileType = FileType::CLIENT_DTO_COMMAND;
+            }
+
+            if (! $this->enableCmdQry) {
+                $fileType = FileType::CLIENT_DTO;
+                $curd = str_replace(['Qry', 'Cmd'], ['DTO', 'DTO'], $curd);
+            }
+
+            $namespace = $this->getNamespaceByPath($this->getPath($fileType));
+            $uses[] = sprintf('%s%s%s', $namespace, $studlyName, $curd);
+        }
+
+        return $this;
     }
 
     private function getDbPrefix(): string

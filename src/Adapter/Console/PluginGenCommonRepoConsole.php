@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace MaliBoot\PluginCodeGenerator\Adapter\Console;
 
 use Hyperf\Contract\ContainerInterface;
+use Hyperf\Stringable\Str;
 use MaliBoot\PluginCodeGenerator\Client\Constants\FileType;
+use MaliBoot\Utils\CodeGen\Plugin;
 use MaliBoot\Utils\File;
 use Symfony\Component\Console\Input\InputOption;
 
-class PluginGenDomainCmdRepoConsole extends AbstractCodeGenConsole
+class PluginGenCommonRepoConsole extends AbstractCodeGenConsole
 {
     protected ?string $pluginName;
 
@@ -17,14 +19,13 @@ class PluginGenDomainCmdRepoConsole extends AbstractCodeGenConsole
 
     public function __construct(ContainerInterface $container)
     {
-        parent::__construct($container, 'plugin:gen-domain-cmd-repo');
+        parent::__construct($container, 'plugin:gen-common-repo');
     }
 
     public function configure()
     {
         parent::configure();
-        $this->setDescription('Create a new plugin domain command repository');
-        $this->addOption('enable-query-command', null, InputOption::VALUE_OPTIONAL, '是否支持读写分离架构', 'false');
+        $this->setDescription('Create a new plugin common repository implementation');
         $this->defaultConfigure();
     }
 
@@ -33,7 +34,7 @@ class PluginGenDomainCmdRepoConsole extends AbstractCodeGenConsole
         $this->pluginName = $this->getPluginName();
         $this->table = $this->input->getArgument('table');
         $className = $this->input->getOption('class', null);
-        $this->enableCmdQry = $this->input->getOption('enable-query-command') === 'true';
+        $this->businessName = $this->getBusinessName();
         $option = $this->initOption();
 
         $this->generator($this->pluginName, $this->table, $option, $className);
@@ -41,36 +42,36 @@ class PluginGenDomainCmdRepoConsole extends AbstractCodeGenConsole
 
     protected function getStub(): string
     {
-        return File::get(__DIR__ . '/stubs/domain-cmd-repo.stub');
+        return File::get(__DIR__ . '/stubs/repo.stub');
     }
 
     protected function getInheritance(): string
     {
-        if (! $this->enableCmdQry) {
-            return 'CommonRepositoryInterface';
-        }
-        return 'CommandRepositoryInterface';
+        return 'AbstractCommonDBRepository';
     }
 
     protected function getUses(): array
     {
-        if (! $this->enableCmdQry) {
-            return [
-                'MaliBoot\\Cola\\Domain\\CommonRepositoryInterface',
-            ];
-        }
         return [
-            'MaliBoot\\Cola\\Domain\\CommandRepositoryInterface',
+            'MaliBoot\\Cola\\Infra\\AbstractCommonDBRepository',
         ];
     }
 
     protected function getFileType(): string
     {
-        return FileType::DOMAIN_REPOSITORY;
+        return FileType::INFRA_REPOSITORY;
     }
 
     protected function getClassSuffix(): string
     {
         return 'Repo';
+    }
+
+    /**
+     * 使用给定类名称生成类.
+     */
+    protected function buildClass(string $pluginName, string $table, string $className, CodeGenOption $option, array $fields = []): string
+    {
+        return parent::buildClass($pluginName, $table, $className, $option, $fields);
     }
 }
