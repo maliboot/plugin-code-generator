@@ -14,28 +14,28 @@ interface %CLASS%
     /**
      * %CN_NAME%列表
      *
-     * @param %STUDLY_NAME%ListByPage%QRY_SUFFIX% $%CAMEL_NAME%ListByPage%QRY_SUFFIX%
+     * @param %STUDLY_NAME%ListByPage%QRY_SUFFIX% $dto
      *
      * @return PageVO<%STUDLY_NAME%VO>
      */
-    public function listByPage(%STUDLY_NAME%ListByPage%QRY_SUFFIX% $%CAMEL_NAME%ListByPage%QRY_SUFFIX%): PageVO;
+    public function listByPage(%STUDLY_NAME%ListByPage%QRY_SUFFIX% $dto): PageVO;
 
     /**
      * 创建%CN_NAME%
      *
-     * @param %STUDLY_NAME%Create%CMD_SUFFIX% $%CAMEL_NAME%Create%CMD_SUFFIX%
+     * @param %STUDLY_NAME%Create%CMD_SUFFIX% $dto
      *
      * @return IdVO
      */
-    public function create(%STUDLY_NAME%Create%CMD_SUFFIX% $%CAMEL_NAME%Create%CMD_SUFFIX%): IdVO;
+    public function create(%STUDLY_NAME%Create%CMD_SUFFIX% $dto): IdVO;
 
     /**
      * 修改%CN_NAME%
      *
-     * @param %STUDLY_NAME%Update%CMD_SUFFIX% $%CAMEL_NAME%Update%CMD_SUFFIX%
+     * @param %STUDLY_NAME%Update%CMD_SUFFIX% $dto
      * @return EmptyVO
      */
-    public function update(%STUDLY_NAME%Update%CMD_SUFFIX% $%CAMEL_NAME%Update%CMD_SUFFIX%): EmptyVO;
+    public function update(%STUDLY_NAME%Update%CMD_SUFFIX% $dto): EmptyVO;
 
     /**
      * 删除%CN_NAME%

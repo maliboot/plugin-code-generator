@@ -13,35 +13,35 @@ namespace %NAMESPACE%;
 class %CLASS% extends %INHERITANCE% implements %INTERFACE%
 {
     /**
-     * @param %STUDLY_NAME%ListByPage%QRY_SUFFIX% $%CAMEL_NAME%ListByPage%QRY_SUFFIX%
+     * @param %STUDLY_NAME%ListByPage%QRY_SUFFIX% $dto
      *
      * @return PageVO<%STUDLY_NAME%VO>
      */
     #[Method(name: "%CN_NAME%列表")]
-    public function listByPage(%STUDLY_NAME%ListByPage%QRY_SUFFIX% $%CAMEL_NAME%ListByPage%QRY_SUFFIX%): PageVO
+    public function listByPage(%STUDLY_NAME%ListByPage%QRY_SUFFIX% $dto): PageVO
     {
-        return di(%CAMEL_NAME%ListByPageExe::class)->execute($%CAMEL_NAME%ListByPage%QRY_SUFFIX%);
+        return di(%STUDLY_NAME%ListByPageExe::class)->execute($dto);
     }
 
     /**
-     * @param %STUDLY_NAME%Create%CMD_SUFFIX% $%CAMEL_NAME%Create%CMD_SUFFIX%
+     * @param %STUDLY_NAME%Create%CMD_SUFFIX% $dto
      *
      * @return IdVO
      */
     #[Method(name: "创建%CN_NAME%")]
-    public function create(%STUDLY_NAME%Create%CMD_SUFFIX% $%CAMEL_NAME%Create%CMD_SUFFIX%): IdVO
+    public function create(%STUDLY_NAME%Create%CMD_SUFFIX% $dto): IdVO
     {
-        return di(%CAMEL_NAME%CreateExe::class)->execute($%CAMEL_NAME%Create%CMD_SUFFIX%);
+        return di(%STUDLY_NAME%CreateExe::class)->execute($dto);
     }
 
     /**
-     * @param %STUDLY_NAME%Update%CMD_SUFFIX% $%CAMEL_NAME%Update%CMD_SUFFIX%
+     * @param %STUDLY_NAME%Update%CMD_SUFFIX% $dto
      * @return EmptyVO
      */
     #[Method(name: "修改%CN_NAME%")]
-    public function update(%STUDLY_NAME%Update%CMD_SUFFIX% $%CAMEL_NAME%Update%CMD_SUFFIX%): EmptyVO
+    public function update(%STUDLY_NAME%Update%CMD_SUFFIX% $dto): EmptyVO
     {
-        return di(%CAMEL_NAME%UpdateExe::class)->execute($%CAMEL_NAME%Update%CMD_SUFFIX%);
+        return di(%STUDLY_NAME%UpdateExe::class)->execute($dto);
     }
 
     /**
@@ -51,7 +51,7 @@ class %CLASS% extends %INHERITANCE% implements %INTERFACE%
     #[Method(name: "删除%CN_NAME%")]
     public function delete(int $id): EmptyVO
     {
-        return di(%CAMEL_NAME%DeleteExe::class)->execute($id);
+        return di(%STUDLY_NAME%DeleteExe::class)->execute($id);
     }
 
     /**
@@ -61,6 +61,6 @@ class %CLASS% extends %INHERITANCE% implements %INTERFACE%
      #[Method(name: "获取单个%CN_NAME%信息")]
     public function getById(int $id): ?%STUDLY_NAME%VO
     {
-        return di(%CAMEL_NAME%GetByIdExe::class)->execute($id);
+        return di(%STUDLY_NAME%GetByIdExe::class)->execute($id);
     }
 }

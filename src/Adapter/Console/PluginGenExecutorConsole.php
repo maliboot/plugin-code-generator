@@ -300,7 +300,7 @@ class PluginGenExecutorConsole extends AbstractCodeGenConsole
                 $camelCommandName = 'id';
                 break;
             default:
-                $camelCommandName = Str::camel($this->getCommandName());
+                $camelCommandName = 'dto';
                 break;
         }
         $stub = str_replace(
@@ -379,14 +379,13 @@ class PluginGenExecutorConsole extends AbstractCodeGenConsole
 
     protected function getRepositoryParamsLine(): string
     {
-        $commandName = Str::camel($this->getCommandName());
         switch ($this->method) {
             case 'listByPage':
-                $repositoryParams = sprintf('$params = $%s; // do something...', $commandName);
+                $repositoryParams = '$params = $dto; // do something...';
                 break;
             case 'update':
             case 'create':
-                $repositoryParams = sprintf('$params = $%s->toArray();', $commandName);
+                $repositoryParams = '$params = $dto->toArray();';
                 break;
             default:
                 $repositoryParams = '';

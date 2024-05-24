@@ -17,7 +17,7 @@ return [
             FileType::ADAPTER_MOBILE => ['path' => 'src/Adapter/Mobile', 'generate' => true, 'gitignore' => true],
             FileType::ADAPTER_WAP => ['path' => 'src/Adapter/Wap', 'generate' => true, 'gitignore' => true],
             FileType::ADAPTER_WEB => ['path' => 'src/Adapter/Web', 'generate' => true, 'gitignore' => true],
-            FileType::APP => ['path' => 'src/App', 'generate' => true, 'gitignore' => true],
+            FileType::APP => ['path' => 'src/App', 'generate' => true, 'gitignore' => false],
             FileType::APP_EVENT => ['path' => 'src/App/Consumer', 'generate' => true, 'gitignore' => true],
             FileType::APP_EXECUTOR => ['path' => 'src/App/Executor', 'generate' => true, 'gitignore' => false],
             FileType::APP_EXECUTOR_ADMIN => ['path' => 'src/App/Executor/Admin', 'generate' => false, 'gitignore' => true],
